@@ -1,0 +1,87 @@
+# version: "3"
+
+# services:
+#   mysql-development:
+#     image: mysql:8.0.17
+#     container_name: mysql-development
+#     environment:
+#       MYSQL_ROOT_PASSWORD: secret
+#       MYSQL_DATABASE: testapp
+#     ports:
+#       - "3306:3306"
+#     restart: always
+#     volumes:
+#       - my-db-data:/var/lib/mysql
+
+#   phpmyadmin:
+#     depends_on:
+#       - mysql-development
+#     image: phpmyadmin/phpmyadmin
+#     container_name: pma
+#     environment:
+#       PMA_HOST: mysql-development
+#       MYSQL_ROOT_PASSWORD: password
+#       PMA_PORT: 3306
+#       PMA_ARBITRARY: 1
+#     restart: always
+#     ports:
+#       - "8081:80"
+
+#   app:
+#     container_name: app-dev
+#     image: app-dev
+#     build:
+#       dockerfile: Dockerfile
+#       context: .
+#     ports:
+#       - "5000:5000"
+#     # volumes:
+#     #   - .:/go/src/app
+
+# volumes:
+#   my-db-data:
+version: "3"
+
+services:
+  mysql-development:
+    image: mysql:8.0.17
+    container_name: mysql-development
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: testapp
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - my-db-data:/var/lib/mysql
+
+  phpmyadmin:
+    depends_on:
+      - mysql-development
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    environment:
+      PMA_HOST: mysql-development
+      MYSQL_ROOT_PASSWORD: password
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - "8081:80"
+
+  app:
+    container_name: app-dev
+    image: app-dev
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    ports:
+      - "5000:5000"
+    command: air main.go -b 0.0.0.0
+      
+    # volumes:
+    #   - .:/go/src/app
+
+volumes:
+  my-db-data:
+

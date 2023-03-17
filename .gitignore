@@ -1,0 +1,4 @@
+#ignore .exe .http .idea
+*.exe
+*.http
+.idea
